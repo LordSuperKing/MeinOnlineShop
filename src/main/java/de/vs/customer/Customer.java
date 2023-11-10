@@ -2,7 +2,7 @@ package de.vs.customer;
 
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import de.vs.cart.Cart;
 import jakarta.persistence.CascadeType;
@@ -20,12 +20,12 @@ public class Customer {
 	private UUID id;
 	private String name;
 
-	@Autowired
-	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
+	@OneToOne(cascade = CascadeType.ALL)
+	@JsonManagedReference
 	private Cart cart;
 
 	public Customer() {
-		this.cart = new Cart();
+		this.cart = new Cart(this);
 	}
 
 	public UUID getId() {

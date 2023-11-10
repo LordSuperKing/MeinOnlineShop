@@ -3,6 +3,8 @@ package de.vs.cart;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import de.vs.customer.Customer;
 import de.vs.orders.Orders;
 import jakarta.persistence.Entity;
@@ -20,6 +22,7 @@ public class Cart {
 	private Integer id;
 
 	@OneToOne
+	@JsonBackReference
 	private Customer customer;
 
 	@OneToMany
@@ -27,7 +30,11 @@ public class Cart {
 
 	public Cart() {
 		this.orders = new ArrayList<>();
+	}
 
+	public Cart(Customer customer) {
+		this.customer = customer;
+		this.orders = new ArrayList<>();
 	}
 
 	public Customer getCustomer() {
