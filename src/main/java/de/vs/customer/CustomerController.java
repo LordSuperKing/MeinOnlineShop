@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import de.vs.cart.Cart;
 import de.vs.cart.CartRepository;
+import jakarta.annotation.PostConstruct;
 
 @RestController
 @RequestMapping("/customer")
@@ -19,11 +20,12 @@ public class CustomerController {
 	CartRepository cartRepository;
 
 	@PostMapping
+	@PostConstruct
 	public Customer createCustomer() {
-		Cart cart = new Cart();
+//		Cart cart = new Cart();
 		Customer customer = new Customer();
 //		this.cartRepository.save(cart);
-		customer.setCart(cart);
+//		customer.setCart(cart);
 		return this.customerRepository.save(customer);
 	}
 

@@ -4,13 +4,18 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import de.vs.cart.Cart;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 
 @Entity
 public class Customer {
@@ -20,12 +25,13 @@ public class Customer {
 	private UUID id;
 	private String name;
 
-	@Autowired
-	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JsonBackReference
 	private Cart cart;
 
 	public Customer() {
-		this.cart = new Cart();
+		this.cart = new Cart(this);
 	}
 
 	public UUID getId() {

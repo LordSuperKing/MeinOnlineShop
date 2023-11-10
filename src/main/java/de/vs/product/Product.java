@@ -15,6 +15,8 @@ public class Product {
 
 	// @ManyToOne
 	// private Orders order;
+	
+	public Product() {}
 
 	public String getName() {
 		return this.name;
