@@ -1,50 +1,41 @@
 package de.vs.cart;
 
 import java.util.Optional;
-import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import de.vs.customer.Customer;
-import de.vs.orders.Orders;
-import de.vs.orders.OrdersRepository;
-
 @RestController
-@RequestMapping("/carts")
+@RequestMapping("/cart")
 public class CartController {
-	
+
+	private static Logger logger = LoggerFactory.getLogger(CartController.class);
+
 	@Autowired
-	CartRepository cartRepository;
-	
-	@Autowired
-	OrdersRepository ordersRepository;
-	
-	@GetMapping("/associatedcustomer")
-	public Customer getAssociatedCustomer(@RequestParam("customerid") UUID customerId) {
-		return cartRepository.findByCustomerId(customerId);
-	}
-	
-	@GetMapping("/cart")
-	public Optional<Cart> getCartById(@RequestParam("customerid") Integer id) {
-		return cartRepository.findById(id);
-	}
-	
-	@PostMapping("cart/order")
-	public Cart addOrder(Integer cart_id) {
-		Optional<Cart> cartOpt = cartRepository.findById(cart_id);
-//		Orders order = ordersRepository.save(new Orders());
-		Orders order = new Orders();
-		Cart cart = null;
-		if (cartOpt.isPresent()) {
-			cart = cartOpt.get(); 
+	private CartRepository cartRepository;
+
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Void> deleteById(@PathVariable Integer id) {
+		Optional<Cart> toFind = this.cartRepository.findById(id);
+
+		if (toFind.isEmpty()) {
+			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
 		}
-		cart.getProducts().add(order);
-		return cart = cartRepository.save(cart);
+
+		if (toFind.get().getCustomer() != null) {
+			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+		}
+
+		this.cartRepository.delete(toFind.get());
+
+		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 	}
 
 }

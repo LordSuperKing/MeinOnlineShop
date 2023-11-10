@@ -13,10 +13,18 @@ public class Product {
 	private Integer id;
 	private String name;
 
-	// @ManyToOne
-	// private Orders order;
-	
-	public Product() {}
+
+//	 @ManyToOne
+//	 private Orders order;
+
+	public Product() {
+		super();
+	}
+
+	public Product(String name) {
+		this.name = name;
+	}
+
 
 	public String getName() {
 		return this.name;

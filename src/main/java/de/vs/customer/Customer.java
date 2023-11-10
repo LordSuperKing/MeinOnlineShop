@@ -2,20 +2,15 @@ package de.vs.customer;
 
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import de.vs.cart.Cart;
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
-import jakarta.persistence.PrimaryKeyJoinColumn;
 
 @Entity
 public class Customer {
@@ -25,9 +20,9 @@ public class Customer {
 	private UUID id;
 	private String name;
 
-	
+
 	@OneToOne(cascade = CascadeType.ALL)
-	@JsonBackReference
+	@JsonManagedReference
 	private Cart cart;
 
 	public Customer() {
