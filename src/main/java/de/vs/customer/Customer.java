@@ -1,7 +1,5 @@
 package de.vs.customer;
 
-import java.util.UUID;
-
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import de.vs.cart.Cart;
@@ -15,11 +13,15 @@ import jakarta.persistence.OneToOne;
 @Entity
 public class Customer {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.UUID)
-	private UUID id;
-	private String name;
+//	@Id
+//	@GeneratedValue(strategy = GenerationType.UUID)
+//	private UUID id;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
+
+	private String name;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JsonManagedReference
@@ -29,11 +31,11 @@ public class Customer {
 		this.cart = new Cart(this);
 	}
 
-	public UUID getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(UUID id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

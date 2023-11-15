@@ -4,19 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import de.vs.customer.Customer;
 import de.vs.orders.Orders;
-import de.vs.product.Product;
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinColumns;
-import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
@@ -31,16 +28,22 @@ public class Cart {
 	@JsonBackReference
 	private Customer customer;
 
-	@OneToMany(cascade = CascadeType.PERSIST)
+	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn
+	@JsonManagedReference
 	private List<Orders> orders;
 
 	public Cart() {
 		this.orders = new ArrayList<>();
 	}
-	
+
 	public Cart(Customer customer) {
 		this.customer = customer;
+	}
+
+	public void addOrder(Orders order) {
+		order.setCart(this);
+		this.orders.add(order);
 	}
 
 	public Customer getCustomer() {
@@ -51,11 +54,11 @@ public class Cart {
 		this.customer = customer;
 	}
 
-	public List<Orders> getProducts() {
+	public List<Orders> getOrders() {
 		return this.orders;
 	}
 
-	public void setProducts(List<Orders> orders) {
+	public void setOrders(List<Orders> orders) {
 		this.orders = orders;
 	}
 
