@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import de.vs.customer.Customer;
 import de.vs.orders.Orders;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,6 +22,7 @@ public class Cart {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "cart_id")
 	private Integer id;
 
 	@OneToOne
@@ -30,7 +31,7 @@ public class Cart {
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn
-	@JsonManagedReference
+	@JsonBackReference
 	private List<Orders> orders;
 
 	public Cart() {
