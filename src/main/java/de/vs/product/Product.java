@@ -2,13 +2,11 @@ package de.vs.product;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-import de.vs.orders.Orders;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Product {
@@ -19,9 +17,9 @@ public class Product {
 	private Integer id;
 	private String name;
 
-	@ManyToOne
-	@JsonBackReference
-	private Orders order;
+//	 @ManyToOne
+//	 @JoinColumn(name = "cart_id", insertable = false, updatable = false)
+//	 private Orders order;
 
 	public Product() {
 		super();
@@ -39,7 +37,7 @@ public class Product {
 		this.name = name;
 	}
 
-	public Integer getId() {
+	public Integer getProductId() {
 		return this.id;
 	}
 
